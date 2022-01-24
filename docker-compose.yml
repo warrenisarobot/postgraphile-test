@@ -1,0 +1,38 @@
+version: "3.3"
+services:
+  db:
+    container_name: example-db
+    restart: always
+    image: forum-example-db
+    build:
+      context: ./db
+    volumes:
+      - db:/var/lib/postgresql-graphile-test/data
+    env_file:
+      - ./.env
+    networks:
+      - network
+    ports:
+      - 5432:5432
+    command: ["postgres", "-c", "log_statement=all"]
+  graphql:
+    container_name: example-graphql
+    restart: always
+    image: forum-example-graphql
+    build:
+        context: ./graphql
+    env_file:
+        - ./.env
+    depends_on:
+        - db
+    networks:
+        - network
+    ports:
+        - 5433:5433
+    command: ["--connection", "${DATABASE_URL}", "--port", "5433", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter", "--jwt-secret", "asdfasdfasdfasdfasdfasdfasdfasdf"]
+
+networks:
+  network:
+
+volumes:
+  db:
