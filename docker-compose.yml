@@ -7,7 +7,7 @@ services:
     build:
       context: ./db
     volumes:
-      - db:/var/lib/postgresql-graphile-test/data
+      - db:/var/lib/postgresql/data
     env_file:
       - ./.env
     networks:
@@ -28,8 +28,8 @@ services:
     networks:
         - network
     ports:
-        - 5433:5433
-    command: ["--connection", "${DATABASE_URL}", "--port", "5433", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter", "--jwt-secret", "asdfasdfasdfasdfasdfasdfasdfasdf"]
+        - 5434:5434
+    command: ["--connection", "${DATABASE_URL}", "--port", "5434", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter", "--jwt-secret", "asdfasdfasdfasdfasdfasdfasdfasdf"]
 
 networks:
   network:
