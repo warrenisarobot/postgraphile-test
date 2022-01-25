@@ -1,5 +1,10 @@
 \connect forum_example;
 
+CREATE ROLE admin;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES to admin;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES to PUBLIC;
+
 CREATE EXTENSION "uuid-ossp";
 
 /*Create user table in public schema*/
@@ -12,6 +17,17 @@ CREATE TABLE public.user (
 COMMENT ON TABLE public.user IS
 'Forum users.';
 
+ALTER TABLE "user" ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY admins ON "user" TO admin
+USING (true) WITH CHECK (true);
+
+CREATE POLICY users ON "user";
+USING (id = current_user::uuid);
+
+
+
+
 /*Create post table in public schema*/
 CREATE TABLE public.post (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -23,6 +39,14 @@ CREATE TABLE public.post (
 
 COMMENT ON TABLE public.post IS
 'Forum posts written by a user.';
+
+ALTER TABLE "post" ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY admins ON "post" TO admin
+USING (true) WITH CHECK (true);
+
+CREATE POLICY users ON "post"
+USING (author_id = current_user::uuid);
 
 
 
