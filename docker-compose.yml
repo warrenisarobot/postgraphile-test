@@ -29,6 +29,8 @@ services:
         - network
     ports:
         - 5434:5434
+    volumes:
+        - "./graphql:/tmp"
     command: ["--connection", "${DATABASE_URL}", "--port", "5434", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter", "--jwt-secret", "asdfasdfasdfasdfasdfasdfasdfasdf"]
 
 networks:
