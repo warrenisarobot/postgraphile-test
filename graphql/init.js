@@ -27,10 +27,10 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://dev-7o44e5n5.us.auth0.com/.well-known/jwks.json`,  }),
+    jwksUri: `http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs`,  }),
 
   // Validate the audience and the issuer.
-  audience: "postgraphile",  issuer: `https://dev-7o44e5n5.us.auth0.com/`,  algorithms: ["RS256"],
+  audience: "postgraphile",  issuer: `http://localhost:8080/auth/realms/master`,  algorithms: ["RS256"],
 });
 
 app.use(checkJwt);

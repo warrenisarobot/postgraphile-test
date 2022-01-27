@@ -32,7 +32,19 @@ services:
     volumes:
         - "./graphql:/tmp"
     command: ["--connection", "${DATABASE_URL}", "--port", "5434", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter", "--jwt-secret", "asdfasdfasdfasdfasdfasdfasdfasdf"]
-
+  keycloak:
+    image: forum-example-keycloak
+    build:
+        context: ./keycloak
+        args:
+          GIT_REPO: keycloak/keycloak
+    env_file:
+        - ./.env
+    networks:
+        - network
+    ports:
+        - 8080:8080
+        - 9990:9990
 networks:
   network:
 
