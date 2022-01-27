@@ -2,6 +2,8 @@
 
 CREATE ROLE admin;
 
+CREATE ROLE postgraphile WITH LOGIN PASSWORD 'postgraphilepassword';
+
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES to admin;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES to PUBLIC;
 
@@ -22,7 +24,7 @@ ALTER TABLE "user" ENABLE ROW LEVEL SECURITY;
 CREATE POLICY admins ON "user" TO admin
 USING (true) WITH CHECK (true);
 
-CREATE POLICY users ON "user";
+CREATE POLICY users ON "user"
 USING (id = current_user::uuid);
 
 
@@ -46,7 +48,7 @@ CREATE POLICY admins ON "post" TO admin
 USING (true) WITH CHECK (true);
 
 CREATE POLICY users ON "post"
-USING (author_id = current_user::uuid);
+USING (author_id = current_setting('user.id')::uuid);
 
 
 
@@ -69,8 +71,12 @@ GRANT EXECUTE ON FUNCTION public.sync_user_role() TO postgres;
 GRANT EXECUTE ON FUNCTION public.sync_user_role() TO PUBLIC;
 
 
+/*
+Try doing this without creating a new role for each individual user
+
 CREATE TRIGGER _000_add_user_as_role
     AFTER INSERT
     ON public."user"
     FOR EACH ROW
     EXECUTE FUNCTION public.sync_user_role();
+*/

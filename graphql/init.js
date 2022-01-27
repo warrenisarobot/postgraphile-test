@@ -4,6 +4,8 @@ const express = require("express");
 const { postgraphile } = require("postgraphile");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
+const httpProxy = require("http-proxy");
+const reverseProxy = httpProxy.createProxyServer();
 
 const app = express();
 const port = process.env.PORT || 5434;
@@ -18,7 +20,6 @@ const authErrors = (err, req, res, next) => {
   }
 };
 
-
 const checkJwt = jwt({
   // Dynamically provide a signing key
   // based on the `kid` in the header and
@@ -27,17 +28,31 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs`,  }),
+    jwksUri:
+      `http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs`,
+  }),
 
   // Validate the audience and the issuer.
-  audience: "postgraphile",  issuer: `http://localhost:8080/auth/realms/master`,  algorithms: ["RS256"],
+  audience: "postgraphile",
+  issuer: `http://2c62-174-52-91-94.ngrok.io/auth/realms/master`,
+  algorithms: ["RS256"],
+});
+
+app.all("/auth/token", function (req, res) {
+  console.log("hit auth endpoint");
+  console.log("Request: " + req);
+  req.path = "/auth/realms/master/protocol/openid-connect/token";
+  res = reverseProxy.web(req, res, {
+    target:
+      "http://keycloak:8080/auth/realms/master/protocol/openid-connect/token",
+    ignorePath: true,
+  });
+  console.log("result: " + res);
 });
 
 app.use(checkJwt);
 
 app.use(authErrors);
-
-
 
 app.use(
   postgraphile(
@@ -47,20 +62,19 @@ app.use(
       watchPg: true,
       graphiql: true,
       enhanceGraphiql: true,
-        pgSettings: req => {
-            const settings = {};
-            if (req.user) {
-                settings["user.permissions"] = req.user.scopes;
-            }
-            return settings;
+      jwtRole: ["jti"],
+      pgSettings: (req) => {
+        const settings = {};
+        if (req.user) {
+          console.log("User: %j", req.user);
+          settings["user.id"] = req.user.jti;
+          console.log("Settings: %j", settings);
         }
-    }
-  )
+        return settings;
+      },
+    },
+  ),
 );
-
-
-
-
 
 console.log("Starting listener on port " + port);
 

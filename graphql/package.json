@@ -3,6 +3,7 @@
     "express": "^4.17.2",
     "express-jwt": "^6.1.0",
     "graphile": "^4.11.0",
+    "http-proxy": "^1.18.1",
     "jwks-rsa": "^2.0.5",
     "postgraphile": "^4.12.8"
   }
