@@ -1,5 +1,0 @@
-subgraphs:
-  uno:
-    routing_url: https://localhost:5434/graphql
-    schema:
-      subgraph_url: https://localhost:5434/graphql

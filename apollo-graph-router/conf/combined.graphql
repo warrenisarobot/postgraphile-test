@@ -1,0 +1,2893 @@
+schema
+  @core(feature: "https://specs.apollo.dev/core/v0.2"),
+  @core(feature: "https://specs.apollo.dev/join/v0.1", for: EXECUTION)
+{
+  query: Query
+  mutation: Mutation
+}
+
+directive @core(as: String, feature: String!, for: core__Purpose) repeatable on SCHEMA
+
+directive @join__field(graph: join__Graph, provides: join__FieldSet, requires: join__FieldSet) on FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__owner(graph: join__Graph!) on INTERFACE | OBJECT
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet) repeatable on INTERFACE | OBJECT
+
+""""""
+type Address {
+  """"""
+  address: String
+
+  """"""
+  city: String
+
+  """"""
+  state: String
+}
+
+""""""
+type Capsule {
+  """"""
+  dragon: Dragon
+
+  """"""
+  id: ID
+
+  """"""
+  landings: Int
+
+  """"""
+  missions: [CapsuleMission]
+
+  """"""
+  original_launch: Date
+
+  """"""
+  reuse_count: Int
+
+  """"""
+  status: String
+
+  """"""
+  type: String
+}
+
+""""""
+type CapsuleMission {
+  """"""
+  flight: Int
+
+  """"""
+  name: String
+}
+
+""""""
+input CapsulesFind {
+  """"""
+  id: ID
+
+  """"""
+  landings: Int
+
+  """"""
+  mission: String
+
+  """"""
+  original_launch: Date
+
+  """"""
+  reuse_count: Int
+
+  """"""
+  status: String
+
+  """"""
+  type: String
+}
+
+""""""
+type Core {
+  """"""
+  asds_attempts: Int
+
+  """"""
+  asds_landings: Int
+
+  """"""
+  block: Int
+
+  """"""
+  id: ID
+
+  """"""
+  missions: [CapsuleMission]
+
+  """"""
+  original_launch: Date
+
+  """"""
+  reuse_count: Int
+
+  """"""
+  rtls_attempts: Int
+
+  """"""
+  rtls_landings: Int
+
+  """"""
+  status: String
+
+  """"""
+  water_landing: Boolean
+}
+
+""""""
+type CoreMission {
+  """"""
+  flight: Int
+
+  """"""
+  name: String
+}
+
+""""""
+input CoresFind {
+  """"""
+  asds_attempts: Int
+
+  """"""
+  asds_landings: Int
+
+  """"""
+  block: Int
+
+  """"""
+  id: String
+
+  """"""
+  missions: String
+
+  """"""
+  original_launch: Date
+
+  """"""
+  reuse_count: Int
+
+  """"""
+  rtls_attempts: Int
+
+  """"""
+  rtls_landings: Int
+
+  """"""
+  status: String
+
+  """"""
+  water_landing: Boolean
+}
+
+"""All input for the create `Post` mutation."""
+input CreatePostInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Post` to be created by this mutation."""
+  post: PostInput!
+}
+
+"""The output of our create `Post` mutation."""
+type CreatePostPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Post` that was created by this mutation."""
+  post: Post
+
+  """An edge for our `Post`. May be used by Relay 1."""
+  postEdge(
+    """The method to use when ordering `Post`."""
+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PostsEdge
+
+  """Reads a single `User` that is related to this `Post`."""
+  userByAuthorId: User
+}
+
+"""All input for the create `User` mutation."""
+input CreateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `User` to be created by this mutation."""
+  user: UserInput!
+}
+
+"""The output of our create `User` mutation."""
+type CreateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was created by this mutation."""
+  user: User
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+""""""
+scalar Date
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+"""All input for the `deletePostById` mutation."""
+input DeletePostByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deletePost` mutation."""
+input DeletePostInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Post` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Post` mutation."""
+type DeletePostPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  deletedPostId: ID
+
+  """The `Post` that was deleted by this mutation."""
+  post: Post
+
+  """An edge for our `Post`. May be used by Relay 1."""
+  postEdge(
+    """The method to use when ordering `Post`."""
+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PostsEdge
+
+  """Reads a single `User` that is related to this `Post`."""
+  userByAuthorId: User
+}
+
+"""All input for the `deleteUserById` mutation."""
+input DeleteUserByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteUser` mutation."""
+input DeleteUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `User` mutation."""
+type DeleteUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  deletedUserId: ID
+
+  """The `User` that was deleted by this mutation."""
+  user: User
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+""""""
+type Distance {
+  """"""
+  feet: Float
+
+  """"""
+  meters: Float
+}
+
+""""""
+type Dragon {
+  """"""
+  active: Boolean
+
+  """"""
+  crew_capacity: Int
+
+  """"""
+  description: String
+
+  """"""
+  diameter: Distance
+
+  """"""
+  dry_mass_kg: Int
+
+  """"""
+  dry_mass_lb: Int
+
+  """"""
+  first_flight: String
+
+  """"""
+  heat_shield: DragonHeatShield
+
+  """"""
+  height_w_trunk: Distance
+
+  """"""
+  id: ID
+
+  """"""
+  launch_payload_mass: Mass
+
+  """"""
+  launch_payload_vol: Volume
+
+  """"""
+  name: String
+
+  """"""
+  orbit_duration_yr: Int
+
+  """"""
+  pressurized_capsule: DragonPressurizedCapsule
+
+  """"""
+  return_payload_mass: Mass
+
+  """"""
+  return_payload_vol: Volume
+
+  """"""
+  sidewall_angle_deg: Float
+
+  """"""
+  thrusters: [DragonThrust]
+
+  """"""
+  trunk: DragonTrunk
+
+  """"""
+  type: String
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type DragonHeatShield {
+  """"""
+  dev_partner: String
+
+  """"""
+  material: String
+
+  """"""
+  size_meters: Float
+
+  """"""
+  temp_degrees: Int
+}
+
+""""""
+type DragonPressurizedCapsule {
+  """"""
+  payload_volume: Volume
+}
+
+""""""
+type DragonThrust {
+  """"""
+  amount: Int
+
+  """"""
+  fuel_1: String
+
+  """"""
+  fuel_2: String
+
+  """"""
+  pods: Int
+
+  """"""
+  thrust: Force
+
+  """"""
+  type: String
+}
+
+""""""
+type DragonTrunk {
+  """"""
+  cargo: DragonTrunkCargo
+
+  """"""
+  trunk_volume: Volume
+}
+
+""""""
+type DragonTrunkCargo {
+  """"""
+  solar_array: Int
+
+  """"""
+  unpressurized_cargo: Boolean
+}
+
+""""""
+type Force {
+  """"""
+  kN: Float
+
+  """"""
+  lbf: Float
+}
+
+""""""
+type HistoriesResult {
+  """"""
+  data: [History]
+
+  """"""
+  result: Result
+}
+
+""""""
+type History {
+  """"""
+  details: String
+
+  """"""
+  event_date_unix: Date
+
+  """"""
+  event_date_utc: Date
+
+  """"""
+  flight: Launch
+
+  """"""
+  id: ID
+
+  """"""
+  links: Link
+
+  """"""
+  title: String
+}
+
+""""""
+input HistoryFind {
+  """"""
+  end: Date
+
+  """"""
+  flight_number: Int
+
+  """"""
+  id: ID
+
+  """"""
+  start: Date
+}
+
+""""""
+type Info {
+  """"""
+  ceo: String
+
+  """"""
+  coo: String
+
+  """"""
+  cto: String
+
+  """"""
+  cto_propulsion: String
+
+  """"""
+  employees: Int
+
+  """"""
+  founded: Int
+
+  """"""
+  founder: String
+
+  """"""
+  headquarters: Address
+
+  """"""
+  launch_sites: Int
+
+  """"""
+  links: InfoLinks
+
+  """"""
+  name: String
+
+  """"""
+  summary: String
+
+  """"""
+  test_sites: Int
+
+  """"""
+  valuation: Float
+
+  """"""
+  vehicles: Int
+}
+
+""""""
+type InfoLinks {
+  """"""
+  elon_twitter: String
+
+  """"""
+  flickr: String
+
+  """"""
+  twitter: String
+
+  """"""
+  website: String
+}
+
+""""""
+type Landpad {
+  """"""
+  attempted_landings: String
+
+  """"""
+  details: String
+
+  """"""
+  full_name: String
+
+  """"""
+  id: ID
+
+  """"""
+  landing_type: String
+
+  """"""
+  location: Location
+
+  """"""
+  status: String
+
+  """"""
+  successful_landings: String
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type Launch {
+  """"""
+  details: String
+
+  """"""
+  id: ID
+
+  """"""
+  is_tentative: Boolean
+
+  """"""
+  launch_date_local: Date
+
+  """"""
+  launch_date_unix: Date
+
+  """"""
+  launch_date_utc: Date
+
+  """"""
+  launch_site: LaunchSite
+
+  """"""
+  launch_success: Boolean
+
+  """"""
+  launch_year: String
+
+  """"""
+  links: LaunchLinks
+
+  """"""
+  mission_id: [String]
+
+  """"""
+  mission_name: String
+
+  """"""
+  rocket: LaunchRocket
+
+  """"""
+  ships: [Ship]
+
+  """"""
+  static_fire_date_unix: Date
+
+  """"""
+  static_fire_date_utc: Date
+
+  """"""
+  telemetry: LaunchTelemetry
+
+  """"""
+  tentative_max_precision: String
+
+  """"""
+  upcoming: Boolean
+}
+
+""""""
+input LaunchFind {
+  """"""
+  apoapsis_km: Float
+
+  """"""
+  block: Int
+
+  """"""
+  cap_serial: String
+
+  """"""
+  capsule_reuse: String
+
+  """"""
+  core_flight: Int
+
+  """"""
+  core_reuse: String
+
+  """"""
+  core_serial: String
+
+  """"""
+  customer: String
+
+  """"""
+  eccentricity: Float
+
+  """"""
+  end: Date
+
+  """"""
+  epoch: Date
+
+  """"""
+  fairings_recovered: String
+
+  """"""
+  fairings_recovery_attempt: String
+
+  """"""
+  fairings_reuse: String
+
+  """"""
+  fairings_reused: String
+
+  """"""
+  fairings_ship: String
+
+  """"""
+  gridfins: String
+
+  """"""
+  id: ID
+
+  """"""
+  inclination_deg: Float
+
+  """"""
+  land_success: String
+
+  """"""
+  landing_intent: String
+
+  """"""
+  landing_type: String
+
+  """"""
+  landing_vehicle: String
+
+  """"""
+  launch_date_local: Date
+
+  """"""
+  launch_date_utc: Date
+
+  """"""
+  launch_success: String
+
+  """"""
+  launch_year: String
+
+  """"""
+  legs: String
+
+  """"""
+  lifespan_years: Float
+
+  """"""
+  longitude: Float
+
+  """"""
+  manufacturer: String
+
+  """"""
+  mean_motion: Float
+
+  """"""
+  mission_id: String
+
+  """"""
+  mission_name: String
+
+  """"""
+  nationality: String
+
+  """"""
+  norad_id: Int
+
+  """"""
+  orbit: String
+
+  """"""
+  payload_id: String
+
+  """"""
+  payload_type: String
+
+  """"""
+  periapsis_km: Float
+
+  """"""
+  period_min: Float
+
+  """"""
+  raan: Float
+
+  """"""
+  reference_system: String
+
+  """"""
+  regime: String
+
+  """"""
+  reused: String
+
+  """"""
+  rocket_id: String
+
+  """"""
+  rocket_name: String
+
+  """"""
+  rocket_type: String
+
+  """"""
+  second_stage_block: String
+
+  """"""
+  semi_major_axis_km: Float
+
+  """"""
+  ship: String
+
+  """"""
+  side_core1_reuse: String
+
+  """"""
+  side_core2_reuse: String
+
+  """"""
+  site_id: String
+
+  """"""
+  site_name: String
+
+  """"""
+  site_name_long: String
+
+  """"""
+  start: Date
+
+  """"""
+  tbd: String
+
+  """"""
+  tentative: String
+
+  """"""
+  tentative_max_precision: String
+}
+
+""""""
+type LaunchLinks {
+  """"""
+  article_link: String
+
+  """"""
+  flickr_images: [String]
+
+  """"""
+  mission_patch: String
+
+  """"""
+  mission_patch_small: String
+
+  """"""
+  presskit: String
+
+  """"""
+  reddit_campaign: String
+
+  """"""
+  reddit_launch: String
+
+  """"""
+  reddit_media: String
+
+  """"""
+  reddit_recovery: String
+
+  """"""
+  video_link: String
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type LaunchRocket {
+  """"""
+  fairings: LaunchRocketFairings
+
+  """"""
+  first_stage: LaunchRocketFirstStage
+
+  """"""
+  rocket: Rocket
+
+  """"""
+  rocket_name: String
+
+  """"""
+  rocket_type: String
+
+  """"""
+  second_stage: LaunchRocketSecondStage
+}
+
+""""""
+type LaunchRocketFairings {
+  """"""
+  recovered: Boolean
+
+  """"""
+  recovery_attempt: Boolean
+
+  """"""
+  reused: Boolean
+
+  """"""
+  ship: String
+}
+
+""""""
+type LaunchRocketFirstStage {
+  """"""
+  cores: [LaunchRocketFirstStageCore]
+}
+
+""""""
+type LaunchRocketFirstStageCore {
+  """"""
+  block: Int
+
+  """"""
+  core: Core
+
+  """"""
+  flight: Int
+
+  """"""
+  gridfins: Boolean
+
+  """"""
+  land_success: Boolean
+
+  """"""
+  landing_intent: Boolean
+
+  """"""
+  landing_type: String
+
+  """"""
+  landing_vehicle: String
+
+  """"""
+  legs: Boolean
+
+  """"""
+  reused: Boolean
+}
+
+""""""
+type LaunchRocketSecondStage {
+  """"""
+  block: Int
+
+  """"""
+  payloads: [Payload]
+}
+
+""""""
+type LaunchSite {
+  """"""
+  site_id: String
+
+  """"""
+  site_name: String
+
+  """"""
+  site_name_long: String
+}
+
+""""""
+type LaunchTelemetry {
+  """"""
+  flight_club: String
+}
+
+""""""
+type LaunchesPastResult {
+  """"""
+  data: [Launch]
+
+  """"""
+  result: Result
+}
+
+""""""
+type Launchpad {
+  """"""
+  attempted_launches: Int
+
+  """"""
+  details: String
+
+  """"""
+  id: ID
+
+  """"""
+  location: Location
+
+  """"""
+  name: String
+
+  """"""
+  status: String
+
+  """"""
+  successful_launches: Int
+
+  """"""
+  vehicles_launched: [Rocket]
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type Link {
+  """"""
+  article: String
+
+  """"""
+  reddit: String
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type Location {
+  """"""
+  latitude: Float
+
+  """"""
+  longitude: Float
+
+  """"""
+  name: String
+
+  """"""
+  region: String
+}
+
+""""""
+type Mass {
+  """"""
+  kg: Int
+
+  """"""
+  lb: Int
+}
+
+""""""
+type Mission {
+  """"""
+  description: String
+
+  """"""
+  id: ID
+
+  """"""
+  manufacturers: [String]
+
+  """"""
+  name: String
+
+  """"""
+  payloads: [Payload]
+
+  """"""
+  twitter: String
+
+  """"""
+  website: String
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type MissionResult {
+  """"""
+  data: [Mission]
+
+  """"""
+  result: Result
+}
+
+""""""
+input MissionsFind {
+  """"""
+  id: ID
+
+  """"""
+  manufacturer: String
+
+  """"""
+  name: String
+
+  """"""
+  payload_id: String
+}
+
+type Mutation {
+  """Creates a single `Post`."""
+  createPost(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreatePostInput!
+  ): CreatePostPayload @join__field(graph: UNO)
+
+  """Creates a single `User`."""
+  createUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInput!
+  ): CreateUserPayload @join__field(graph: UNO)
+
+  """Deletes a single `Post` using its globally unique id."""
+  deletePost(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePostInput!
+  ): DeletePostPayload @join__field(graph: UNO)
+
+  """Deletes a single `Post` using a unique key."""
+  deletePostById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePostByIdInput!
+  ): DeletePostPayload @join__field(graph: UNO)
+
+  """Deletes a single `User` using its globally unique id."""
+  deleteUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInput!
+  ): DeleteUserPayload @join__field(graph: UNO)
+
+  """Deletes a single `User` using a unique key."""
+  deleteUserById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByIdInput!
+  ): DeleteUserPayload @join__field(graph: UNO)
+
+  """
+  delete data from the table: "users"
+  """
+  delete_users(
+    """filter the rows which have to be deleted"""
+    where: users_bool_exp!
+  ): users_mutation_response @join__field(graph: SPACEX)
+
+  """
+  insert data into the table: "users"
+  """
+  insert_users(
+    """the rows to be inserted"""
+    objects: [users_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: users_on_conflict
+  ): users_mutation_response @join__field(graph: SPACEX)
+
+  """Updates a single `Post` using its globally unique id and a patch."""
+  updatePost(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePostInput!
+  ): UpdatePostPayload @join__field(graph: UNO)
+
+  """Updates a single `Post` using a unique key and a patch."""
+  updatePostById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePostByIdInput!
+  ): UpdatePostPayload @join__field(graph: UNO)
+
+  """Updates a single `User` using its globally unique id and a patch."""
+  updateUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInput!
+  ): UpdateUserPayload @join__field(graph: UNO)
+
+  """Updates a single `User` using a unique key and a patch."""
+  updateUserById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserByIdInput!
+  ): UpdateUserPayload @join__field(graph: UNO)
+
+  """
+  update data of the table: "users"
+  """
+  update_users(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+
+    """filter the rows which have to be updated"""
+    where: users_bool_exp!
+  ): users_mutation_response @join__field(graph: SPACEX)
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+""""""
+scalar ObjectID
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+}
+
+""""""
+type Payload {
+  """"""
+  customers: [String]
+
+  """"""
+  id: ID
+
+  """"""
+  manufacturer: String
+
+  """"""
+  nationality: String
+
+  """"""
+  norad_id: [Int]
+
+  """"""
+  orbit: String
+
+  """"""
+  orbit_params: PayloadOrbitParams
+
+  """"""
+  payload_mass_kg: Float
+
+  """"""
+  payload_mass_lbs: Float
+
+  """"""
+  payload_type: String
+
+  """"""
+  reused: Boolean
+}
+
+""""""
+type PayloadOrbitParams {
+  """"""
+  apoapsis_km: Float
+
+  """"""
+  arg_of_pericenter: Float
+
+  """"""
+  eccentricity: Float
+
+  """"""
+  epoch: Date
+
+  """"""
+  inclination_deg: Float
+
+  """"""
+  lifespan_years: Float
+
+  """"""
+  longitude: Float
+
+  """"""
+  mean_anomaly: Float
+
+  """"""
+  mean_motion: Float
+
+  """"""
+  periapsis_km: Float
+
+  """"""
+  period_min: Float
+
+  """"""
+  raan: Float
+
+  """"""
+  reference_system: String
+
+  """"""
+  regime: String
+
+  """"""
+  semi_major_axis_km: Float
+}
+
+""""""
+input PayloadsFind {
+  """"""
+  apoapsis_km: Float
+
+  """"""
+  customer: String
+
+  """"""
+  eccentricity: Float
+
+  """"""
+  epoch: Date
+
+  """"""
+  inclination_deg: Float
+
+  """"""
+  lifespan_years: Float
+
+  """"""
+  longitude: Float
+
+  """"""
+  manufacturer: String
+
+  """"""
+  mean_motion: Float
+
+  """"""
+  nationality: String
+
+  """"""
+  norad_id: Int
+
+  """"""
+  orbit: String
+
+  """"""
+  payload_id: ID
+
+  """"""
+  payload_type: String
+
+  """"""
+  periapsis_km: Float
+
+  """"""
+  period_min: Float
+
+  """"""
+  raan: Float
+
+  """"""
+  reference_system: String
+
+  """"""
+  regime: String
+
+  """"""
+  reused: Boolean
+
+  """"""
+  semi_major_axis_km: Float
+}
+
+"""Forum posts written by a user."""
+type Post implements Node {
+  authorId: UUID!
+  body: String
+  createdDate: Datetime
+  id: UUID!
+
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  title: String
+
+  """Reads a single `User` that is related to this `Post`."""
+  userByAuthorId: User
+}
+
+"""
+A condition to be used against `Post` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input PostCondition {
+  """Checks for equality with the object’s `authorId` field."""
+  authorId: UUID
+
+  """Checks for equality with the object’s `body` field."""
+  body: String
+
+  """Checks for equality with the object’s `createdDate` field."""
+  createdDate: Datetime
+
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `title` field."""
+  title: String
+}
+
+"""An input for mutations affecting `Post`"""
+input PostInput {
+  authorId: UUID!
+  body: String
+  createdDate: Datetime
+  id: UUID
+  title: String
+}
+
+"""Represents an update to a `Post`. Fields that are set will be updated."""
+input PostPatch {
+  authorId: UUID
+  body: String
+  createdDate: Datetime
+  id: UUID
+  title: String
+}
+
+"""A connection to a list of `Post` values."""
+type PostsConnection {
+  """
+  A list of edges which contains the `Post` and cursor to aid in pagination.
+  """
+  edges: [PostsEdge!]!
+
+  """A list of `Post` objects."""
+  nodes: [Post]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Post` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Post` edge in the connection."""
+type PostsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Post` at the end of the edge."""
+  node: Post
+}
+
+"""Methods to use when ordering `Post`."""
+enum PostsOrderBy {
+  AUTHOR_ID_ASC
+  AUTHOR_ID_DESC
+  BODY_ASC
+  BODY_DESC
+  CREATED_DATE_ASC
+  CREATED_DATE_DESC
+  ID_ASC
+  ID_DESC
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  TITLE_ASC
+  TITLE_DESC
+}
+
+type Query implements Node {
+  """Reads and enables pagination through a set of `Post`."""
+  allPosts(
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PostCondition
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """The method to use when ordering `Post`."""
+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PostsConnection @join__field(graph: UNO)
+
+  """Reads and enables pagination through a set of `User`."""
+  allUsers(
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersConnection @join__field(graph: UNO)
+
+  """"""
+  capsule(id: ID!): Capsule @join__field(graph: SPACEX)
+
+  """"""
+  capsules(find: CapsulesFind, limit: Int, offset: Int, order: String, sort: String): [Capsule] @join__field(graph: SPACEX)
+
+  """"""
+  capsulesPast(find: CapsulesFind, limit: Int, offset: Int, order: String, sort: String): [Capsule] @join__field(graph: SPACEX)
+
+  """"""
+  capsulesUpcoming(find: CapsulesFind, limit: Int, offset: Int, order: String, sort: String): [Capsule] @join__field(graph: SPACEX)
+
+  """"""
+  company: Info @join__field(graph: SPACEX)
+
+  """"""
+  core(id: ID!): Core @join__field(graph: SPACEX)
+
+  """"""
+  cores(find: CoresFind, limit: Int, offset: Int, order: String, sort: String): [Core] @join__field(graph: SPACEX)
+
+  """"""
+  coresPast(find: CoresFind, limit: Int, offset: Int, order: String, sort: String): [Core] @join__field(graph: SPACEX)
+
+  """"""
+  coresUpcoming(find: CoresFind, limit: Int, offset: Int, order: String, sort: String): [Core] @join__field(graph: SPACEX)
+
+  """"""
+  dragon(id: ID!): Dragon @join__field(graph: SPACEX)
+
+  """"""
+  dragons(limit: Int, offset: Int): [Dragon] @join__field(graph: SPACEX)
+
+  """"""
+  histories(find: HistoryFind, limit: Int, offset: Int, order: String, sort: String): [History] @join__field(graph: SPACEX)
+
+  """"""
+  historiesResult(find: HistoryFind, limit: Int, offset: Int, order: String, sort: String): HistoriesResult @join__field(graph: SPACEX)
+
+  """"""
+  history(id: ID!): History @join__field(graph: SPACEX)
+
+  """"""
+  landpad(id: ID!): Landpad @join__field(graph: SPACEX)
+
+  """"""
+  landpads(limit: Int, offset: Int): [Landpad] @join__field(graph: SPACEX)
+
+  """"""
+  launch(id: ID!): Launch @join__field(graph: SPACEX)
+
+  """"""
+  launchLatest(offset: Int): Launch @join__field(graph: SPACEX)
+
+  """"""
+  launchNext(offset: Int): Launch @join__field(graph: SPACEX)
+
+  """"""
+  launches(find: LaunchFind, limit: Int, offset: Int, order: String, sort: String): [Launch] @join__field(graph: SPACEX)
+
+  """"""
+  launchesPast(find: LaunchFind, limit: Int, offset: Int, order: String, sort: String): [Launch] @join__field(graph: SPACEX)
+
+  """"""
+  launchesPastResult(find: LaunchFind, limit: Int, offset: Int, order: String, sort: String): LaunchesPastResult @join__field(graph: SPACEX)
+
+  """"""
+  launchesUpcoming(find: LaunchFind, limit: Int, offset: Int, order: String, sort: String): [Launch] @join__field(graph: SPACEX)
+
+  """"""
+  launchpad(id: ID!): Launchpad @join__field(graph: SPACEX)
+
+  """"""
+  launchpads(limit: Int, offset: Int): [Launchpad] @join__field(graph: SPACEX)
+
+  """"""
+  mission(id: ID!): Mission @join__field(graph: SPACEX)
+
+  """"""
+  missions(find: MissionsFind, limit: Int, offset: Int): [Mission] @join__field(graph: SPACEX)
+
+  """"""
+  missionsResult(find: MissionsFind, limit: Int, offset: Int): MissionResult @join__field(graph: SPACEX)
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node @join__field(graph: UNO)
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID! @join__field(graph: UNO)
+
+  """"""
+  payload(id: ID!): Payload @join__field(graph: SPACEX)
+
+  """"""
+  payloads(find: PayloadsFind, limit: Int, offset: Int, order: String, sort: String): [Payload] @join__field(graph: SPACEX)
+
+  """Reads a single `Post` using its globally unique `ID`."""
+  post(
+    """The globally unique `ID` to be used in selecting a single `Post`."""
+    nodeId: ID!
+  ): Post @join__field(graph: UNO)
+  postById(id: UUID!): Post @join__field(graph: UNO)
+
+  """"""
+  roadster: Roadster @join__field(graph: SPACEX)
+
+  """"""
+  rocket(id: ID!): Rocket @join__field(graph: SPACEX)
+
+  """"""
+  rockets(limit: Int, offset: Int): [Rocket] @join__field(graph: SPACEX)
+
+  """"""
+  rocketsResult(limit: Int, offset: Int): RocketsResult @join__field(graph: SPACEX)
+
+  """"""
+  ship(id: ID!): Ship @join__field(graph: SPACEX)
+
+  """"""
+  ships(find: ShipsFind, limit: Int, offset: Int, order: String, sort: String): [Ship] @join__field(graph: SPACEX)
+
+  """"""
+  shipsResult(find: ShipsFind, limit: Int, offset: Int, order: String, sort: String): ShipsResult @join__field(graph: SPACEX)
+
+  """Reads a single `User` using its globally unique `ID`."""
+  user(
+    """The globally unique `ID` to be used in selecting a single `User`."""
+    nodeId: ID!
+  ): User @join__field(graph: UNO)
+  userById(id: UUID!): User @join__field(graph: UNO)
+
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the nuber of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]! @join__field(graph: SPACEX)
+
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the nuber of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate! @join__field(graph: SPACEX)
+
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(id: uuid!): users @join__field(graph: SPACEX)
+}
+
+""""""
+type Result {
+  """"""
+  totalCount: Int
+}
+
+""""""
+type Roadster {
+  """"""
+  apoapsis_au: Float
+
+  """"""
+  details: String
+
+  """"""
+  earth_distance_km: Float
+
+  """"""
+  earth_distance_mi: Float
+
+  """"""
+  eccentricity: Float
+
+  """"""
+  epoch_jd: Float
+
+  """"""
+  inclination: Float
+
+  """"""
+  launch_date_unix: Date
+
+  """"""
+  launch_date_utc: Date
+
+  """"""
+  launch_mass_kg: Int
+
+  """"""
+  launch_mass_lbs: Int
+
+  """"""
+  longitude: Float
+
+  """"""
+  mars_distance_km: Float
+
+  """"""
+  mars_distance_mi: Float
+
+  """"""
+  name: String
+
+  """"""
+  norad_id: Int
+
+  """"""
+  orbit_type: Float
+
+  """"""
+  periapsis_arg: Float
+
+  """"""
+  periapsis_au: Float
+
+  """"""
+  period_days: Float
+
+  """"""
+  semi_major_axis_au: Float
+
+  """"""
+  speed_kph: Float
+
+  """"""
+  speed_mph: Float
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type Rocket {
+  """"""
+  active: Boolean
+
+  """"""
+  boosters: Int
+
+  """"""
+  company: String
+
+  """"""
+  cost_per_launch: Int
+
+  """"""
+  country: String
+
+  """"""
+  description: String
+
+  """"""
+  diameter: Distance
+
+  """"""
+  engines: RocketEngines
+
+  """"""
+  first_flight: Date
+
+  """"""
+  first_stage: RocketFirstStage
+
+  """"""
+  height: Distance
+
+  """"""
+  id: ID
+
+  """"""
+  landing_legs: RocketLandingLegs
+
+  """"""
+  mass: Mass
+
+  """"""
+  name: String
+
+  """"""
+  payload_weights: [RocketPayloadWeight]
+
+  """"""
+  second_stage: RocketSecondStage
+
+  """"""
+  stages: Int
+
+  """"""
+  success_rate_pct: Int
+
+  """"""
+  type: String
+
+  """"""
+  wikipedia: String
+}
+
+""""""
+type RocketEngines {
+  """"""
+  engine_loss_max: String
+
+  """"""
+  layout: String
+
+  """"""
+  number: Int
+
+  """"""
+  propellant_1: String
+
+  """"""
+  propellant_2: String
+
+  """"""
+  thrust_sea_level: Force
+
+  """"""
+  thrust_to_weight: Float
+
+  """"""
+  thrust_vacuum: Force
+
+  """"""
+  type: String
+
+  """"""
+  version: String
+}
+
+""""""
+type RocketFirstStage {
+  """"""
+  burn_time_sec: Int
+
+  """"""
+  engines: Int
+
+  """"""
+  fuel_amount_tons: Float
+
+  """"""
+  reusable: Boolean
+
+  """"""
+  thrust_sea_level: Force
+
+  """"""
+  thrust_vacuum: Force
+}
+
+""""""
+type RocketLandingLegs {
+  """"""
+  material: String
+
+  """"""
+  number: Int
+}
+
+""""""
+type RocketPayloadWeight {
+  """"""
+  id: String
+
+  """"""
+  kg: Int
+
+  """"""
+  lb: Int
+
+  """"""
+  name: String
+}
+
+""""""
+type RocketSecondStage {
+  """"""
+  burn_time_sec: Int
+
+  """"""
+  engines: Int
+
+  """"""
+  fuel_amount_tons: Float
+
+  """"""
+  payloads: RocketSecondStagePayloads
+
+  """"""
+  thrust: Force
+}
+
+""""""
+type RocketSecondStagePayloadCompositeFairing {
+  """"""
+  diameter: Distance
+
+  """"""
+  height: Distance
+}
+
+""""""
+type RocketSecondStagePayloads {
+  """"""
+  composite_fairing: RocketSecondStagePayloadCompositeFairing
+
+  """"""
+  option_1: String
+}
+
+""""""
+type RocketsResult {
+  """"""
+  data: [Rocket]
+
+  """"""
+  result: Result
+}
+
+""""""
+type Ship {
+  """"""
+  abs: Int
+
+  """"""
+  active: Boolean
+
+  """"""
+  attempted_landings: Int
+
+  """"""
+  class: Int
+
+  """"""
+  course_deg: Int
+
+  """"""
+  home_port: String
+
+  """"""
+  id: ID
+
+  """"""
+  image: String
+
+  """"""
+  imo: Int
+
+  """"""
+  missions: [ShipMission]
+
+  """"""
+  mmsi: Int
+
+  """"""
+  model: String
+
+  """"""
+  name: String
+
+  """"""
+  position: ShipLocation
+
+  """"""
+  roles: [String]
+
+  """"""
+  speed_kn: Float
+
+  """"""
+  status: String
+
+  """"""
+  successful_landings: Int
+
+  """"""
+  type: String
+
+  """"""
+  url: String
+
+  """"""
+  weight_kg: Int
+
+  """"""
+  weight_lbs: Int
+
+  """"""
+  year_built: Int
+}
+
+""""""
+type ShipLocation {
+  """"""
+  latitude: Float
+
+  """"""
+  longitude: Float
+}
+
+""""""
+type ShipMission {
+  """"""
+  flight: String
+
+  """"""
+  name: String
+}
+
+""""""
+input ShipsFind {
+  """"""
+  abs: Int
+
+  """"""
+  active: Boolean
+
+  """"""
+  attempted_landings: Int
+
+  """"""
+  class: Int
+
+  """"""
+  course_deg: Int
+
+  """"""
+  home_port: String
+
+  """"""
+  id: ID
+
+  """"""
+  imo: Int
+
+  """"""
+  latitude: Float
+
+  """"""
+  longitude: Float
+
+  """"""
+  mission: String
+
+  """"""
+  mmsi: Int
+
+  """"""
+  model: String
+
+  """"""
+  name: String
+
+  """"""
+  role: String
+
+  """"""
+  speed_kn: Int
+
+  """"""
+  status: String
+
+  """"""
+  successful_landings: Int
+
+  """"""
+  type: String
+
+  """"""
+  weight_kg: Int
+
+  """"""
+  weight_lbs: Int
+
+  """"""
+  year_built: Int
+}
+
+""""""
+type ShipsResult {
+  """"""
+  data: [Ship]
+
+  """"""
+  result: Result
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  """"""
+  _eq: String
+
+  """"""
+  _gt: String
+
+  """"""
+  _gte: String
+
+  """"""
+  _ilike: String
+
+  """"""
+  _in: [String!]
+
+  """"""
+  _is_null: Boolean
+
+  """"""
+  _like: String
+
+  """"""
+  _lt: String
+
+  """"""
+  _lte: String
+
+  """"""
+  _neq: String
+
+  """"""
+  _nilike: String
+
+  """"""
+  _nin: [String!]
+
+  """"""
+  _nlike: String
+
+  """"""
+  _nsimilar: String
+
+  """"""
+  _similar: String
+}
+
+"""
+A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
+"""
+scalar UUID
+
+"""All input for the `updatePostById` mutation."""
+input UpdatePostByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+
+  """
+  An object where the defined keys will be set on the `Post` being updated.
+  """
+  postPatch: PostPatch!
+}
+
+"""All input for the `updatePost` mutation."""
+input UpdatePostInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Post` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Post` being updated.
+  """
+  postPatch: PostPatch!
+}
+
+"""The output of our update `Post` mutation."""
+type UpdatePostPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Post` that was updated by this mutation."""
+  post: Post
+
+  """An edge for our `Post`. May be used by Relay 1."""
+  postEdge(
+    """The method to use when ordering `Post`."""
+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PostsEdge
+
+  """Reads a single `User` that is related to this `Post`."""
+  userByAuthorId: User
+}
+
+"""All input for the `updateUserById` mutation."""
+input UpdateUserByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+}
+
+"""All input for the `updateUser` mutation."""
+input UpdateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+}
+
+"""The output of our update `User` mutation."""
+type UpdateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was updated by this mutation."""
+  user: User
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""Forum users."""
+type User implements Node {
+  createdDate: Datetime
+  id: UUID!
+
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+
+  """Reads and enables pagination through a set of `Post`."""
+  postsByAuthorId(
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PostCondition
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """The method to use when ordering `Post`."""
+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PostsConnection!
+  username: String
+}
+
+"""
+A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input UserCondition {
+  """Checks for equality with the object’s `createdDate` field."""
+  createdDate: Datetime
+
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `username` field."""
+  username: String
+}
+
+"""An input for mutations affecting `User`"""
+input UserInput {
+  createdDate: Datetime
+  id: UUID
+  username: String
+}
+
+"""Represents an update to a `User`. Fields that are set will be updated."""
+input UserPatch {
+  createdDate: Datetime
+  id: UUID
+  username: String
+}
+
+"""A connection to a list of `User` values."""
+type UsersConnection {
+  """
+  A list of edges which contains the `User` and cursor to aid in pagination.
+  """
+  edges: [UsersEdge!]!
+
+  """A list of `User` objects."""
+  nodes: [User]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `User` edge in the connection."""
+type UsersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User
+}
+
+"""Methods to use when ordering `User`."""
+enum UsersOrderBy {
+  CREATED_DATE_ASC
+  CREATED_DATE_DESC
+  ID_ASC
+  ID_DESC
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  USERNAME_ASC
+  USERNAME_DESC
+}
+
+""""""
+type Volume {
+  """"""
+  cubic_feet: Int
+
+  """"""
+  cubic_meters: Int
+}
+
+"""conflict action"""
+enum conflict_action {
+  """ignore the insert on this row"""
+  ignore
+
+  """update the row with the given values"""
+  update
+}
+
+enum core__Purpose {
+  """
+  `EXECUTION` features provide metadata necessary to for operation execution.
+  """
+  EXECUTION
+
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  SPACEX @join__graph(name: "spacex" url: "https://api.spacex.land/graphql")
+  UNO @join__graph(name: "uno" url: "http://graphql:5434/graphql")
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+scalar timestamptz
+
+"""
+expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  """"""
+  _eq: timestamptz
+
+  """"""
+  _gt: timestamptz
+
+  """"""
+  _gte: timestamptz
+
+  """"""
+  _in: [timestamptz!]
+
+  """"""
+  _is_null: Boolean
+
+  """"""
+  _lt: timestamptz
+
+  """"""
+  _lte: timestamptz
+
+  """"""
+  _neq: timestamptz
+
+  """"""
+  _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "users"
+"""
+type users {
+  """"""
+  id: uuid!
+
+  """"""
+  name: String
+
+  """"""
+  rocket: String
+
+  """"""
+  timestamp: timestamptz!
+
+  """"""
+  twitter: String
+}
+
+"""
+aggregated selection of "users"
+"""
+type users_aggregate {
+  """"""
+  aggregate: users_aggregate_fields
+
+  """"""
+  nodes: [users!]!
+}
+
+"""
+aggregate fields of "users"
+"""
+type users_aggregate_fields {
+  """"""
+  count(columns: [users_select_column!], distinct: Boolean): Int
+
+  """"""
+  max: users_max_fields
+
+  """"""
+  min: users_min_fields
+}
+
+"""
+order by aggregate values of table "users"
+"""
+input users_aggregate_order_by {
+  """"""
+  count: order_by
+
+  """"""
+  max: users_max_order_by
+
+  """"""
+  min: users_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "users"
+"""
+input users_arr_rel_insert_input {
+  """"""
+  data: [users_insert_input!]!
+
+  """"""
+  on_conflict: users_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+"""
+input users_bool_exp {
+  """"""
+  _and: [users_bool_exp]
+
+  """"""
+  _not: users_bool_exp
+
+  """"""
+  _or: [users_bool_exp]
+
+  """"""
+  id: uuid_comparison_exp
+
+  """"""
+  name: String_comparison_exp
+
+  """"""
+  rocket: String_comparison_exp
+
+  """"""
+  timestamp: timestamptz_comparison_exp
+
+  """"""
+  twitter: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "users"
+"""
+enum users_constraint {
+  """unique or primary key constraint"""
+  users_pkey
+}
+
+"""
+input type for inserting data into table "users"
+"""
+input users_insert_input {
+  """"""
+  id: uuid
+
+  """"""
+  name: String
+
+  """"""
+  rocket: String
+
+  """"""
+  timestamp: timestamptz
+
+  """"""
+  twitter: String
+}
+
+"""aggregate max on columns"""
+type users_max_fields {
+  """"""
+  name: String
+
+  """"""
+  rocket: String
+
+  """"""
+  timestamp: timestamptz
+
+  """"""
+  twitter: String
+}
+
+"""
+order by max() on columns of table "users"
+"""
+input users_max_order_by {
+  """"""
+  name: order_by
+
+  """"""
+  rocket: order_by
+
+  """"""
+  timestamp: order_by
+
+  """"""
+  twitter: order_by
+}
+
+"""aggregate min on columns"""
+type users_min_fields {
+  """"""
+  name: String
+
+  """"""
+  rocket: String
+
+  """"""
+  timestamp: timestamptz
+
+  """"""
+  twitter: String
+}
+
+"""
+order by min() on columns of table "users"
+"""
+input users_min_order_by {
+  """"""
+  name: order_by
+
+  """"""
+  rocket: order_by
+
+  """"""
+  timestamp: order_by
+
+  """"""
+  twitter: order_by
+}
+
+"""
+response of any mutation on the table "users"
+"""
+type users_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [users!]!
+}
+
+"""
+input type for inserting object relation for remote table "users"
+"""
+input users_obj_rel_insert_input {
+  """"""
+  data: users_insert_input!
+
+  """"""
+  on_conflict: users_on_conflict
+}
+
+"""
+on conflict condition type for table "users"
+"""
+input users_on_conflict {
+  """"""
+  constraint: users_constraint!
+
+  """"""
+  update_columns: [users_update_column!]!
+}
+
+"""
+ordering options when selecting data from "users"
+"""
+input users_order_by {
+  """"""
+  id: order_by
+
+  """"""
+  name: order_by
+
+  """"""
+  rocket: order_by
+
+  """"""
+  timestamp: order_by
+
+  """"""
+  twitter: order_by
+}
+
+"""
+select columns of table "users"
+"""
+enum users_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  rocket
+
+  """column name"""
+  timestamp
+
+  """column name"""
+  twitter
+}
+
+"""
+input type for updating data in table "users"
+"""
+input users_set_input {
+  """"""
+  id: uuid
+
+  """"""
+  name: String
+
+  """"""
+  rocket: String
+
+  """"""
+  timestamp: timestamptz
+
+  """"""
+  twitter: String
+}
+
+"""
+update columns of table "users"
+"""
+enum users_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  rocket
+
+  """column name"""
+  timestamp
+
+  """column name"""
+  twitter
+}
+
+scalar uuid
+
+"""
+expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  """"""
+  _eq: uuid
+
+  """"""
+  _gt: uuid
+
+  """"""
+  _gte: uuid
+
+  """"""
+  _in: [uuid!]
+
+  """"""
+  _is_null: Boolean
+
+  """"""
+  _lt: uuid
+
+  """"""
+  _lte: uuid
+
+  """"""
+  _neq: uuid
+
+  """"""
+  _nin: [uuid!]
+}
+

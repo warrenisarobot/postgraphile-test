@@ -50,6 +50,18 @@ services:
     ports:
         - 8080:8080
         - 9990:9990
+  graphql-router:
+    container_name: example-graphql-router
+    restart: always
+    image: example-graphql-router
+    build:
+        context: ./apollo-graph-router
+    depends_on:
+        - graphql
+    networks:
+        - network
+    ports:
+        - 4000:4000
 networks:
   network:
 

@@ -1,0 +1,9 @@
+subgraphs:
+  uno:
+    routing_url: http://graphql:5434/graphql
+    schema:
+      file: ./graphile.graphql
+  spacex:
+    routing_url: https://api.spacex.land/graphql
+    schema:
+      file: ./spacex.graphql
