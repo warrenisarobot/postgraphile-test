@@ -25,6 +25,7 @@ services:
         - ./.env
     depends_on:
         - db
+        - keycloak
     networks:
         - network
     ports:
@@ -39,7 +40,9 @@ services:
         args:
           GIT_REPO: keycloak/keycloak
     env_file:
-        - ./.env
+        - ./keycloak/.env
+    depends_on:
+        - db
     networks:
         - network
     ports:
