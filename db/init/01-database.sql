@@ -48,7 +48,7 @@ CREATE POLICY admins ON "post" TO admin
 USING (true) WITH CHECK (true);
 
 CREATE POLICY users ON "post"
-USING (author_id = current_setting('user.id')::uuid);
+USING (author_id = current_setting('user.id', true)::uuid);
 
 
 

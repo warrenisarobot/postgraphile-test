@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/node
 
 const express = require("express");
 const { postgraphile } = require("postgraphile");
@@ -50,7 +50,7 @@ app.all("/auth/token", function (req, res) {
   console.log("result: " + res);
 });
 
-app.use(checkJwt);
+//app.use(checkJwt);
 
 app.use(authErrors);
 

@@ -15,6 +15,8 @@ services:
     ports:
       - 5432:5432
     command: ["postgres", "-c", "log_statement=all"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "forum_example", "-U", "postgres"]
   graphql:
     container_name: example-graphql
     restart: always
@@ -31,7 +33,7 @@ services:
     ports:
         - 5434:5434
     volumes:
-        - "./graphql:/tmp"
+        - "./graphql/init.js:/usr/local/graph-server/init.js"
     command: ["--connection", "${DATABASE_URL}", "--port", "5434", "--schema", "public", "--append-plugins", "postgraphile-plugin-connection-filter", "--jwt-secret", "asdfasdfasdfasdfasdfasdfasdfasdf"]
   keycloak:
     image: forum-example-keycloak
